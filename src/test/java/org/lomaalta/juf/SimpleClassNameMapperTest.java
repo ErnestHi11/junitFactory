@@ -17,20 +17,31 @@
  */
 package org.lomaalta.juf;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
+import org.hamcrest.core.Is;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.lomaalta.juf.SimpleClassNameMapper;
+import org.junit.rules.ExpectedException;
 
 public class SimpleClassNameMapperTest {
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     private SimpleClassNameMapper simpleClassNameMapper;
 
     @Test
     public void getTestClassNameReturnsSimpleClassNameWithTestAppended() {
-        assertEquals(String.class.getSimpleName() + "Test",
-                simpleClassNameMapper.getTestClassName(String.class));
+        assertThat(simpleClassNameMapper.getTestClassName(String.class),
+                Is.is(String.class.getSimpleName() + "Test"));
+    }
+
+    @Test
+    public void getTestClassNameThrowsNullPointerExceptionWhenClassIsNull() {
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage("Class can not be null.");
+        simpleClassNameMapper.getTestClassName(null);
     }
 
     @Before

@@ -20,17 +20,46 @@
  */
 package org.lomaalta.juf;
 
+import java.io.File;
+import java.util.Objects;
+
 /**
- * This class can be used to generate a JUnit testcase from a given class
- * file. This class will use introspection to examine a given class and
- * will create a JUnit testcase sourcefile that implements a test
- * method for each read/write property.
+ * This class can be used to generate a JUnit testcase from a given class file.
+ * This class will use introspection to examine a given class and will create a
+ * JUnit testcase sourcefile that implements a test method for each read/write
+ * property.
  *
  * @author Ernest Hill
  *
  */
 public class JUnitFactory {
 
-
+    /**
+     * Creates a <code>JUnitFactory</code> that can be used to generate a java
+     * source file that implements a JUnit test case for the given
+     * <code>Class</code>. The generated source fill will be placed in the
+     * directory specified. The class in the generated source file will use the
+     * name produced by invoking the the method
+     * {@link ClassNameMapper#getTestClassName(Class);}
+     *
+     * @param aClass
+     *            a <code>Class</code> for which Junit testcases will be
+     *            generated
+     * @param classNameMapper
+     *            used to determine the name of the generated class
+     * @param targetDirectory
+     *            the directory where the generated source file will be placed
+     * @exception NullPointerException
+     *             will be thrown if Class, ClassNameMapper or targetDirectory
+     *             are null
+     */
+    public JUnitFactory(final Class<?> aClass,
+            final ClassNameMapper classNameMapper, final File targetDirectory) {
+        Objects.requireNonNull(aClass, "Class can not be null.");
+        Objects.requireNonNull(classNameMapper,
+                "ClassNameMapper can not be null.");
+        Objects.requireNonNull(targetDirectory,
+                "Target directory can not be null.");
+    }
 
 }

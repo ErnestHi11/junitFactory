@@ -17,15 +17,48 @@
  */
 package org.lomaalta.juf;
 
-import static org.junit.Assert.*;
+import java.io.File;
 
+import org.easymock.EasyMock;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class JUnitFactoryTest {
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
+    private JUnitFactory jUnitFactory;
+    private ClassNameMapper classNameMapper;
+    private File targetDirectory;
+
     @Test
-    public void test() {
-        fail("Not yet implemented");
+    public void constructorThrowsNullPointerExceptionIfClassIsNull() {
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage("Class can not be null.");
+        new JUnitFactory(null, classNameMapper, targetDirectory);
+    }
+
+    @Test
+    public void constructorThrowsNullPointerExceptionIfClassNameMapperIsNull() {
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage("ClassNameMapper can not be null.");
+        new JUnitFactory(String.class, null, targetDirectory);
+    }
+
+    @Test
+    public void constructorThrowsNullPointerExceptionIfTargetDirectoryIsNull() {
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage("Target directory can not be null.");
+        new JUnitFactory(String.class, classNameMapper, null);
+    }
+
+    @Before
+    public void setUp() {
+        classNameMapper = EasyMock.createMock(ClassNameMapper.class);
+        targetDirectory = new File("dummy");
     }
 
 }

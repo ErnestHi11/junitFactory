@@ -21,6 +21,8 @@
  */
 package org.lomaalta.juf;
 
+import java.util.Objects;
+
 /**
  * This class maps the implements a simple mapping scheme by
  * appending the <code>String</code> Test to the end of
@@ -35,6 +37,7 @@ public class SimpleClassNameMapper implements ClassNameMapper {
      */
     @Override
     public String getTestClassName(final Class<?> aClass) {
+        Objects.requireNonNull(aClass, "Class can not be null.");
         return aClass.getSimpleName() + "Test";
     }
 
